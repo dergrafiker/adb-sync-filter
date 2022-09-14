@@ -44,8 +44,7 @@ def collect_files_in_root(paths_to_sync, phone_root):
 
 def main():
     ignore_pattern = re.compile("Android")
-    target_root = sys.argv[1]  # directory to which files and folders from android phone will be copied
-    target = os.path.join(target_root, "sdcard")
+    target = os.path.join(sys.argv[1], "sdcard")  # files will be copied here
     phone_root = "/sdcard/"
 
     paths_to_sync = []
