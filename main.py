@@ -6,7 +6,7 @@ import sys
 
 def dry_run_and_count_pulls_matching_ignore_pattern(phone_root, target, ignore_pattern):
     # sync without copying (dry-run)
-    dry_run_output = subprocess.getoutput("adb-sync --dry-run -R -t " + phone_root + " " + target).splitlines()
+    dry_run_output = subprocess.getoutput("adbsync --dry-run pull " + phone_root + " " + target).splitlines()
 
     print("double check for missing files:")
     lines_filtered_because_of_pattern = 0
@@ -43,7 +43,7 @@ def collect_files_in_root(paths_to_sync, phone_root):
 
 
 def main():
-    ignore_pattern = re.compile("Android")
+    ignore_pattern = re.compile("Android|Music|newpipe|ebooks")
     target = os.path.join(sys.argv[1], "sdcard")  # files will be copied here
     phone_root = "/sdcard/"
 
@@ -52,7 +52,7 @@ def main():
     collect_toplevel_directories_not_matching_pattern(paths_to_sync, phone_root, ignore_pattern)
 
     for path in paths_to_sync:
-        command = "adb-sync -R -t " + path + " " + target
+        command = "adbsync pull " + path + " " + target
         print(command)
         subprocess.run(command, shell=True, check=True)
         print()
